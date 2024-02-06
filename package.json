@@ -9,9 +9,9 @@
     "lint": "eslint --ext .js,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev --port 4000",
+    "dev": "quasar dev --port 3000",
     "build": "quasar build",
-    "start" : "quasar dev --port 4000"
+    "start" : "quasar dev --port 3000"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
