@@ -192,8 +192,8 @@ export default {
   border: 1px solid #d4d4d4;
 }
 .players__image {
-  width: 18rem;
-  height: 21rem;
+  width: 15rem;
+  height: 15rem;
   object-fit: cover;
   border-radius: 0.5rem;
 }
@@ -214,13 +214,13 @@ export default {
   margin-bottom: 1rem;
 }
 .players__id {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: #1a1c1b;
 }
 .players__details p,
 .players__location {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 400;
   color: #252927;
 }

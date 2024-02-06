@@ -1,34 +1,16 @@
 <template>
   <div class="q-pa-md">
-    <h4>Player Registration</h4>
-    <form
-      @submit.prevent.stop="onSubmit"
-      @reset.prevent.stop="onReset"
-      class="q-gutter-md"
-    >
-      <div class="row">
-        <q-input
-          class="col"
-          ref="nameRef"
-          filled
-          v-model="name"
-          label="Full name *"
-          hint="Please enter your full name"
-          lazy-rules
-          :rules="nameRules"
-        />
+    <h4 class="heading heading--h1">Player Registration</h4>
+    <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="players-reg">
+      <div class="input__field">
+        <p class="label">Please enter your full name</p>
 
-        <q-input
-          class="col"
-          ref="locationRef"
-          filled
-          type="text"
-          v-model="location"
-          label="Location *"
-          hint="Please enter your location"
-          lazy-rules
-          :rules="locationRules"
-        />
+        <q-input ref="nameRef" outlined v-model="name" label="Full name *" lazy-rules :rules="nameRules" />
+      </div>
+      <div class="input__field">
+        <p class="label">Please enter your location</p>
+        <q-input ref="locationRef" outlined type="text" v-model="location" label="Location *" lazy-rules
+          :rules="locationRules" />
       </div>
 
       <!-- <div class="row">
@@ -36,7 +18,7 @@
           class="col"
           ref="jerseyNoRef"
           filled
-          type="number"
+          type="numbe
           v-model="jersey_no"
           label="Jersey Number *"
           hint="Please enter your preffered jersey number"
@@ -79,138 +61,79 @@
         />
       </div> -->
 
-      <div class="row">
-        <q-input
-          class="col"
-          ref="contactNoRef"
-          filled
-          v-model="contact_no"
-          label="Contact Number *"
-          mask="(###) ### - ####"
-          fill-mask
-          hint="Please enter your contact number"
-          lazy-rules
-          :rules="contactNoRules"
-          unmasked-value
-        />
-        <q-input
-          class="col"
-          ref="whatsappNoRef"
-          filled
-          v-model="whatsapp_no"
-          label="WhatsApp Number *"
-          mask="(###) ### - ####"
-          fill-mask
-          hint="Please enter your whatsapp number"
-          lazy-rules
-          :rules="whatsappNoRules"
-          unmasked-value
-        />
+      <div class="input__field">
+        <p class="label">Please enter your contact number</p>
+
+        <q-input ref="contactNoRef" outlined v-model="contact_no" label="Contact Number *" mask="(###) ### - ####"
+          fill-mask lazy-rules :rules="contactNoRules" unmasked-value />
+
+      </div>
+      <div class="input__field">
+        <p class="label">Please enter your whatsapp number</p>
+
+        <q-input ref="whatsappNoRef" outlined v-model="whatsapp_no" label="WhatsApp Number *" mask="(###) ### - ####"
+          fill-mask lazy-rules :rules="whatsappNoRules" unmasked-value />
       </div>
 
-      <div class="row">
-        <q-select
-          class="col"
-          ref="playerRoleRef"
-          filled
-          v-model="player_role"
-          :options="playerRoleData"
-          label="Player Role"
-          hint="Please enter your player role"
-          lazy-rules
-          :rules="playerRoleRules"
-        />
+      <div class="input__field">
+        <p class="label">Please enter your player role</p>
 
-        <q-select
-          class="col"
-          ref="battingStyleRef"
-          filled
-          v-model="batting_style"
-          :options="battingStyle"
-          label="Batting Style"
-          hint="Please enter your batting style"
-          lazy-rules
-          :rules="battingStyleRules"
-        />
+        <q-select ref="playerRoleRef" outlined v-model="player_role" :options="playerRoleData" label="Player Role"
+          lazy-rules :rules="playerRoleRules" />
       </div>
 
-      <div class="row">
-        <q-input
-          ref="profileImageRef"
-          class="col"
-          v-model="profile_image"
-          @update:model-value="fileSelect"
-          filled
-          type="file"
-          hint="Please upload your photo"
-          lazy-rules
-          :rules="profileImageRules"
-        />
-        <div class="col">
-          <q-select
-            class="col"
-            ref="bowlingStyleRef"
-            filled
-            v-model="bowling_style"
-            :options="bowlingStyle"
-            label="Bowling Style"
-            hint="Please enter your bowling style"
-            lazy-rules
-            :rules="bowlingStyleRules"
-          />
+      <div class="input__field">
+        <p class="label">Please enter your batting style</p>
+
+        <q-select ref="battingStyleRef" outlined v-model="batting_style" :options="battingStyle" label="Batting Style"
+          lazy-rules :rules="battingStyleRules" />
+      </div>
+      <div class="input__field">
+        <p class="label">Please enter your bowling style</p>
+        <q-select ref="bowlingStyleRef" outlined v-model="bowling_style" :options="bowlingStyle" label="Bowling Style"
+          lazy-rules :rules="bowlingStyleRules" />
+      </div>
+      <div class="input__field">
+        <p class="label">Please upload your photo</p>
+        <div class="upload-wrap">
+          <q-input ref="profileImageRef" v-model="profile_image" @update:model-value="fileSelect" outlined type="file"
+            class="upload" lazy-rules :rules="profileImageRules" />
+          <p class="upload-text">Click to upload</p>
         </div>
       </div>
 
-      <div class="row" v-if="imageDataUri && !persistent">
-        <div class="col">
-          <q-img
-            :src="imageDataUri"
-            spinner-color="white"
-            style="height: 140px; max-width: 150px"
-            :ratio="9 / 10"
-          />
+
+      <div style="justify-self: flex-start;">
+        <div v-if="imageDataUri && !persistent" style="position: relative">
+          <q-img class="thumbnail" :src="imageDataUri" spinner-color="white" style="height: 140px; max-width: 150px"
+            :ratio="9 / 10" />
+          <q-btn flat class="close--btn">
+            <img style="height: 1.3rem; width: 1.3rem" src="~assets/close_icon.svg" class="poster" /></q-btn>
         </div>
-        <div class="col"></div>
       </div>
 
-      <div class="q-pa-md q-gutter-sm" v-if="persistent">
-        <q-dialog
-          v-model="persistent"
-          persistent
-          transition-show="scale"
-          transition-hide="scale"
-        >
+      <div class="" v-if="persistent">
+        <q-dialog class="modal" v-model="persistent" persistent transition-show="scale" transition-hide="scale">
           <q-card class="card">
-            <VuePictureCropper
-              :boxStyle="{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#f8f8f8',
-                margin: 'auto',
-              }"
-              :img="imageDataUri"
-              :options="{
-                viewMode: 1,
-                dragMode: 'crop',
-                aspectRatio: 9 / 10,
-              }"
-              @ready="ready"
-            />
+            <VuePictureCropper :boxStyle="{
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#f8f8f8',
+              margin: 'auto',
+            }" :img="imageDataUri" :options="{
+  viewMode: 1,
+  dragMode: 'crop',
+  aspectRatio: 9 / 10,
+}" @ready="ready" />
 
-            <q-btn flat class="close--btn" @click="getresult"> Crop </q-btn>
+            <q-btn class="close--btn" @click="getresult"><span class="tick"></span> </q-btn>
           </q-card>
         </q-dialog>
       </div>
 
-      <div>
+      <div class="action--btn">
         <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn
-          label="Reset"
-          type="reset"
-          color="primary"
-          flat
-          class="q-ml-sm"
-        />
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </form>
   </div>
@@ -558,13 +481,13 @@ export default {
 </script>
 
 <style scoped>
-@media screen {
-  .row {
-    width: 100%;
-  }
-}
-.col {
-  padding: 10px;
+.players-reg {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+  gap: 1rem 2rem;
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .close--btn {
@@ -577,6 +500,7 @@ export default {
   height: 4rem;
   border: 1px solid #d4d4d4;
 }
+
 .profile-pic {
   /* display: flex; */
   width: 50%;
@@ -585,5 +509,81 @@ export default {
   height: 200px;
   background-size: cover;
   background-position: center center;
+}
+
+.label {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #121212;
+  margin-bottom: 0.5rem;
+}
+
+.upload {
+  position: absolute;
+  /* visibility: hidden; */
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  opacity: 0;
+}
+
+.upload-wrap {
+  position: relative;
+  height: 5.6rem;
+  border: 1px dashed #1976d2;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.upload-text {
+  color: #1976d2;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.thumbnail {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 8px;
+  border: 1px solid #d4d4d4;
+  object-fit: cover;
+}
+
+.close--btn {
+  position: absolute;
+  right: 0.5rem;
+  top: 1rem;
+  background-color: white;
+  border-radius: 20rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid #d4d4d4;
+  padding: 0;
+  min-height: 2.6rem;
+}
+
+.action--btn {
+  justify-self: flex-end;
+}
+
+.modal {
+  min-width: 25rem;
+}
+
+.tick {
+  width: 6px;
+  height: 12px;
+  border-right: 2.3px solid black;
+  border-bottom: 2.3px solid black;
+  transform: rotate(40deg);
+}
+
+@media only screen and (max-width: 60rem) {
+  .players-reg {
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  }
 }
 </style>

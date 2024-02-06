@@ -1,8 +1,9 @@
 <template>
   <q-item clickable :to="link">
-    <q-item-section v-if="icon" avatar>
+    <!-- <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
-    </q-item-section>
+    </q-item-section> -->
+    <q-img :src="'src/assets/' + icon" :alt="icon" style="margin-right: 1rem;width: 2.5rem;height: 2.5rem;"/>
 
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
@@ -36,5 +37,10 @@ export default defineComponent({
       default: "",
     },
   },
+  methods: {
+    getImgUrl: function (imagePath) {
+      return "assets/" + imagePath;
+    }
+  }
 });
 </script>

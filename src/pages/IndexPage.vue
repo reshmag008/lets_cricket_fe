@@ -1,6 +1,8 @@
 <template>
-  <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/banner.jpg" class="poster" />
+  <q-page class="">
+    <div class="text-center">
+      <img alt="Quasar logo" src="~assets/banner.jpg" class="poster" />
+    </div>
   </q-page>
 </template>
 
@@ -19,5 +21,7 @@ export default {
 <style scoped>
 .poster {
   padding: 25px;
+  width: 100rem;
+  max-width: 100%;
 }
 </style>

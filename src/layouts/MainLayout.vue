@@ -28,7 +28,9 @@
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
-          v-bind="link"
+          :link="link.link"
+          :icon="link.icon"
+          :title="link.title"
         />
       </q-list>
     </q-drawer>
@@ -46,35 +48,35 @@ import EssentialLink from "components/EssentialLink.vue";
 const linksList = [
   {
     title: "Player Registration",
-    icon: "school",
+    icon: "reg.png",
     link: "/player-registration",
   },
   {
     title: "Players",
     caption: "github.com/quasarframework",
-    icon: "code",
+    icon: "users.png",
     link: "/players",
   },
   {
     title: "Team Registration",
     caption: "chat.quasar.dev",
-    icon: "chat",
+    icon: "team-reg.png",
     link: "/team-registration",
   },
 
   {
     title: "Teams",
     caption: "chat.quasar.dev",
-    icon: "chat",
+    icon: "teams.png",
     link: "/teams",
   },
 
-  {
-    title: "Auction",
-    caption: "chat.quasar.dev",
-    icon: "chat",
-    link: "/auction",
-  },
+  // {
+  //   title: "Auction",
+  //   caption: "chat.quasar.dev",
+  //   icon: "auction.png",
+  //   link: "/auction",
+  // },
 
   // {
   //   title: "PDF",
