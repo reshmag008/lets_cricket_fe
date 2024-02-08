@@ -1,5 +1,5 @@
 const constants = {
-  BACKEND_API_URL: "http://54.157.60.28:8443",
+  BACKEND_API_URL: "https://mpl-api.lets-cricket.com",
 };
 
 export default constants;

@@ -18,7 +18,7 @@
               spinner-color="#1976d2"
               class="players__image"
               :src="player.profile_image"
-              :ratio="4 / 3"
+              
             />
           </div>
           <!-- </q-card-section> -->
@@ -193,9 +193,10 @@ export default {
 }
 .players__image {
   width: 15rem;
-  height: 15rem;
+  height: 22rem;
   object-fit: cover;
   border-radius: 0.5rem;
+  object-position: 50% 30%;
 }
 .players__card-wrap {
   display: flex;
