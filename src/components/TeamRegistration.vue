@@ -162,7 +162,7 @@ export default {
                 color: "positive",
                 message: "Congratulation..Team Registered Successfully",
               });
-              // this.onReset();
+              this.onReset();
             })
             .catch((err) => {
               console.log("Error in add team== ", err);
@@ -220,7 +220,19 @@ export default {
           });
       },
 
-      onReset() {},
+      onReset() {
+
+        teamName.value = null;
+      ownerName.value = null;
+      selectedLogo.value = null;
+    contactNo.value = null;
+    imageDataUri.value = null;
+
+        teamNameRef.value.resetValidation();
+        ownerNameRef.value.resetValidation();
+        contactNoRef.value.resetValidation();
+        teamLogoRef.value.resetValidation();
+      },
     };
   },
 };

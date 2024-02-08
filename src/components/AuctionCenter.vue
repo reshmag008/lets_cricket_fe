@@ -88,7 +88,6 @@ export default {
   },
 
   methods: {
-    onReset() { },
     sellPlayer() {
       this.showSpinner = true;
       let params = {
@@ -103,12 +102,19 @@ export default {
           console.log("Get Player response== ", response);
           this.players = response.data;
           this.getAllNonBidPlayers();
+          this.onReset();
         })
         .catch((err) => {
           console.log("Error in add player== ", err);
           this.showSpinner = false;
         });
     },
+
+    onReset() {
+      this.bidTeam = '';
+      this.bidAmount = ''
+    },
+
     selectRandomPlayer() {
       const random = Math.floor(Math.random() * this.players.length);
       console.log(random, this.players[random]);
@@ -161,7 +167,7 @@ export default {
 
 <style scoped>
 .auction {
-  max-width: 60rem;
+  max-width: 70rem;
   margin: 0 auto;
   padding: 2rem;
 
@@ -241,7 +247,7 @@ export default {
 
 .player__image {
   width: 20rem;
-  height: 20rem;
+  height: 30rem;
   object-fit: cover;
   border-radius: 0.8rem;
 }
