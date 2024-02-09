@@ -130,14 +130,14 @@ export default {
 
       onSubmit() {
         teamNameRef.value.validate();
-        ownerNameRef.value.validate();
-        contactNoRef.value.validate();
+        //ownerNameRef.value.validate();
+        //contactNoRef.value.validate();
         teamLogoRef.value.validate();
 
         if (
           teamNameRef.value.hasError ||
-          ownerNameRef.value.hasError ||
-          contactNoRef.value.hasError ||
+          //ownerNameRef.value.hasError ||
+          //contactNoRef.value.hasError ||
           teamLogoRef.value.hasError
         ) {
           // form has error
