@@ -19,7 +19,7 @@
             </div>
             <div class="players__id">Points :  {{ team.total_points }}</div>
             <!-- <div class="players__location">Max Bid Amount : {{ team.max_bid_amount }}</div> -->
-            <div class="players__location">Total : {{ team.player_count }}/12 </div>
+            <div class="players__location">Total : {{ team.player_count }}/10 </div>
             
           </div>
         </q-card-section>
