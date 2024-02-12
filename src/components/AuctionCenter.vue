@@ -147,6 +147,7 @@ export default {
           this.players = response.data;
           // this.getAllNonBidPlayers();
           this.onReset();
+          this.showSpinner = false;
         })
         .catch((err) => {
           console.log("Error in add player== ", err);
