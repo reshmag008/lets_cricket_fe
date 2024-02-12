@@ -28,6 +28,10 @@ const routes = [
         path: "/pdf",
         component: () => import("components/pdfTest.vue"),
       },
+      {
+        path : "/team-profile",
+        component: () => import("components/TeamProfile.vue"),
+      }
     ],
   },
 

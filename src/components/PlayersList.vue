@@ -3,9 +3,7 @@
 
   <!-- <button @click="exportToPDF" style="cursor: pointer">Export to PDF</button> -->
   <div style="padding: 20px">
-    Registered players: {{ players.length }} | Sold: 0 | Unsold: 0 | Pending:{{
-      players.length
-    }}
+    Registered players: {{ players.length }} 
   </div>
 
   <div class="players">
@@ -37,7 +35,7 @@
               />
               <p>{{ player.player_role }}</p>
             </div>
-            <div class="players__details">
+            <div class="players__details" v-if="player.player_role=='Batsman' || player.player_role=='All Rounder'">
               <img
                 style="height: 1.6rem; width: 1.6rem"
                 src="~assets/cricket.svg"
@@ -45,7 +43,7 @@
               />
               <p>{{ player.batting_style }}</p>
             </div>
-            <div class="players__details">
+            <div class="players__details" v-if="player.player_role=='Bowler' || player.player_role=='All Rounder'" >
               <img
                 style="height: 1.6rem; width: 1.6rem"
                 src="~assets/tennis-ball.svg"
@@ -88,7 +86,7 @@
               />
               <p>{{ activePlayer.player_role }}</p>
             </div>
-            <div class="players__details">
+            <div class="players__details" v-if="activePlayer.player_role=='Batsman' || activePlayer.player_role=='All Rounder'" >
               <img
                 style="height: 2rem; width: 2rem"
                 src="~assets/cricket.svg"
@@ -96,7 +94,7 @@
               />
               <p>{{ activePlayer.batting_style }}</p>
             </div>
-            <div class="players__details">
+            <div class="players__details" v-if="activePlayer.player_role=='Bowler' || activePlayer.player_role=='All Rounder'" >
               <img
                 style="height: 2rem; width: 2rem"
                 src="~assets/tennis-ball.svg"

@@ -1,12 +1,12 @@
 <template>
-  <div class="heading heading--h1">Manna Premier League - Auction Center</div>
+  <!-- <div class="heading heading--h1"></div> -->
 
   <div class="auction">
     <div class="spinner__wrap" v-if="showSpinner">
       <q-spinner-pie class="spinner" color="orange"  />
     </div>
     <!-- v-if="showSpinner" -->
-    <div v-if="!showSpinner && currentBidPlayer.id">
+    <div v-if="!showSpinner && currentBidPlayer.id" >
       <q-card class="card">
         <q-card-section horizontal class="player">
           <div>
@@ -25,11 +25,11 @@
               <img style="height: 2rem; width: 2rem" src="~assets/account-cowboy-hat.svg" class="poster" />
               <p>{{ currentBidPlayer.player_role }}</p>
             </div>
-            <div class="players__details">
+            <div class="players__details" v-if="currentBidPlayer.player_role=='Batsman' || currentBidPlayer.player_role=='All Rounder'" >
               <img style="height: 2rem; width: 2rem" src="~assets/cricket.svg" class="poster" />
               <p>{{ currentBidPlayer.batting_style }}</p>
             </div>
-            <div class="players__details">
+            <div class="players__details" v-if="currentBidPlayer.player_role=='Bowler' || currentBidPlayer.player_role=='All Rounder'" >
               <img style="height: 2rem; width: 2rem" src="~assets/tennis-ball.svg" class="poster" />
               <p>{{ currentBidPlayer.bowling_style }}</p>
             </div>
@@ -38,34 +38,40 @@
       </q-card>
     </div>
 
-    <div class="text-center mt-sm">
+    <!-- <div class="text-center mt-sm">
       <q-btn class="button" color="primary" label="Select Player" v-if="!showSpinner" @click="getAllNonBidPlayers" />
+    </div> -->
+
+    <div class="text-center mt-sm" style="padding-top: 20px;">
+    <q-input class="col-3" outlined type="text" v-model="searchText" placeholder="Search ID" @keydown.enter.prevent="searchPlayer"/>
+    <q-btn class="button" color="primary" label="Search Player" @click="searchPlayer"/>
     </div>
 
-    <div class="filter mt-sm">
+
+
+
+    <div class="filter mt-sm" v-if="currentBidPlayer.id">
       <div>
         <p class="label">Please enter amount</p>
-        <q-input type="number" class="col-3" ref="bidAmountRef" outlined v-model="bidAmount" label="Amount *" lazy-rules
-          :rules="amountRules" />
+        <q-input type="number"  ref="bidAmountRef" outlined v-model="bidAmount" label="Amount *" lazy-rules
+          :rules="amountRules" style="width: 15rem;" />
       </div>
 
 
       <div>
         <p class="label">Please select team</p>
-        <q-select class="col-3" ref="bidTeamRef" outlined v-model="bidTeam" :options="teamOptions" label="Select Team"
-          lazy-rules :rules="teamSelectRules" />
+        <q-select ref="bidTeamRef" outlined v-model="bidTeam" :options="teamOptions" label="Select Team"
+          lazy-rules :rules="teamSelectRules" 
+          use-input
+          input-debounce="0"
+          behavior="menu"
+          @filter="filterFn"
+          style="width: 25rem;"
+          />
       </div>
 
-      <!-- <q-btn
-          class="glossy button"
-          type="submit"
-          rounded
-          color="deep-orange"
-          label="Sell Player"
-        /> -->
-
-      <q-btn v-if="bidAmount && bidTeam" class="glossy button" rounded color="deep-orange" label="Sell" type="submit"
-        @click="sellPlayer" />
+      <q-btn v-if="bidAmount && bidTeam" color="primary" label="Sell" type="submit"
+        @click="sellPlayer" style="width: 10rem; height:5rem;margin-top:2rem" />
     </div>
   </div>
 </template>
@@ -84,10 +90,48 @@ export default {
       bidAmount: "",
       bidTeam: "",
       teamOptions: [],
+      searchText :'',
+      allTeams : [],
     };
   },
 
   methods: {
+
+    filterFn(val, update) {
+      console.log("val== ",val)
+    if (val === '') {
+      update(() => {
+        this.teamOptions = this.allTeams
+      })
+      return
+    };
+    update(() => {
+          const needle = val.toLowerCase()
+          this.teamOptions = this.allTeams.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+
+    async searchPlayer(){
+      console.log("searchText== ",this.searchText)
+      this.showSpinner = true;
+      axios
+        .get(constants.BACKEND_API_URL + "/non_bid_players/" + this.searchText)
+        .then((response) => {
+          console.log("Get Player response== ", response);
+          this.players = response.data;
+          if (this.players.length > 0) {
+            this.selectRandomPlayer();
+          } else {
+            this.showSpinner = false;
+          }
+          this.searchText = '';
+        })
+        .catch((err) => {
+          console.log("Error in add player== ", err);
+          this.showSpinner = false;
+        });
+    },
+
     sellPlayer() {
       this.showSpinner = true;
       let params = {
@@ -101,7 +145,7 @@ export default {
         .then((response) => {
           console.log("Get Player response== ", response);
           this.players = response.data;
-          this.getAllNonBidPlayers();
+          // this.getAllNonBidPlayers();
           this.onReset();
         })
         .catch((err) => {
@@ -113,6 +157,7 @@ export default {
     onReset() {
       this.bidTeam = '';
       this.bidAmount = ''
+      this.currentBidPlayer = {};
     },
 
     selectRandomPlayer() {
@@ -144,12 +189,13 @@ export default {
       axios
         .get(constants.BACKEND_API_URL + "/teamNames")
         .then((response) => {
-          this.allTeams = response.data;
-          this.allTeams.forEach((element) => {
+          let allTeams = response.data;
+          allTeams.forEach((element) => {
             this.teamOptions.push({
               label: element.team_name,
               value: element.id,
             });
+            this.allTeams = this.teamOptions;
           });
         })
         .catch((err) => {
@@ -159,13 +205,30 @@ export default {
   },
 
   mounted() {
-    this.getAllNonBidPlayers();
+    // this.getAllNonBidPlayers();
     this.getAllTeams();
   },
 };
 </script>
 
 <style scoped>
+
+.text-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mt-sm {
+  margin-top: 1rem; /* Adjust as needed */
+}
+
+/* Adjust width of the input if necessary */
+.col-3 {
+  width: auto; /* or specify a width as needed */
+  margin-right: 0.5rem; /* Adjust spacing between input and button */
+}
+
 .auction {
   max-width: 70rem;
   margin: 0 auto;
@@ -175,7 +238,7 @@ export default {
 
 .filter {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-template-columns: repeat(3, auto);
   gap: 1rem 2rem;
 }
 

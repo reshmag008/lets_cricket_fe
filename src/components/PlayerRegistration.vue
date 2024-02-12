@@ -220,11 +220,11 @@ export default {
         },
         {
           label: "Right Arm Medium",
-          value: "Right Arn Medium",
+          value: "Right Arm Medium",
         },
         {
-          label: "Right Arn Spin",
-          value: "Right Arn Spin",
+          label: "Right Arm Spin",
+          value: "Right Arm Spin",
         },
         {
           label: "Left Arm fast",
@@ -236,11 +236,11 @@ export default {
         },
         {
           label: "Left Arm Medium",
-          value: "Left Arn Medium",
+          value: "Left Arm Medium",
         },
         {
-          label: "Left Arn Spin",
-          value: "Left Arn Spin",
+          label: "Left Arm Spin",
+          value: "Left Arm Spin",
         },
       ],
 
@@ -295,13 +295,13 @@ export default {
 
       playerRoleRules: [(val) => val || "Please select your role"],
 
-      battingStyleRules: [(val) => val || "Please select your batting style"],
+      battingStyleRules: [(val) => (player_role.value.value == 'Bowler' || val) || "Please select your batting style"],
 
       profileImageRules: [
         (val) => (val && val != null) || "Please upload your photo",
       ],
 
-      bowlingStyleRules: [(val) => val || "Please select your bowling style"],
+      bowlingStyleRules: [(val) => (player_role.value.value == 'Batsman' || val) || "Please select your bowling style"],
 
       ready(e) {
         console.log("ready== ", e);
@@ -342,7 +342,7 @@ export default {
         let file = selectedImageFile.value;
         console.log("file== ", file);
         let params = {
-          key: contact_no.value + ".jpeg",
+          key: name.value + "_" + contact_no.value + ".jpeg",
           contentType: file.type,
           bucket: "cricket-players",
         };
@@ -401,10 +401,10 @@ export default {
             jersey_no: jersey_no.value,
             jersey_size: jersey_size.value,
             jersey_name: jersey_name.value,
-            profile_image: contact_no.value + ".jpeg",
+            profile_image: name.value + "_" + contact_no.value + ".jpeg",
             player_role: player_role.value.value,
-            batting_style: batting_style.value.value,
-            bowling_style: bowling_style.value.value,
+            batting_style: batting_style.value ? batting_style.value.value : '',
+            bowling_style: bowling_style.value ? bowling_style.value.value : '',
             profile_link: profile_link.value,
           };
           console.log("params== ", params);
@@ -413,12 +413,13 @@ export default {
             message: "Registration under progress. Please wait...",
           });
 
-          this.getPresignedUrl();
+          
 
           axios
             .post(constants.BACKEND_API_URL + "/players", params)
             .then((response) => {
               console.log("Add Player response== ", response);
+              this.getPresignedUrl();
               $q.loading.hide();
               $q.notify({
                 icon: "done",
